@@ -7,8 +7,13 @@ const {
   deleteCandidate,
 } = require("../controllers/candidateController");
 
-router.route("/").get(getCandidates).post(setCandidate);
+const { protect } = require("../middleware/authMiddleware");
 
-router.route("/:id").put(updateCandidate).delete(deleteCandidate);
+router.route("/").get(protect, getCandidates).post(protect, setCandidate);
+
+router
+  .route("/:id")
+  .put(protect, updateCandidate)
+  .delete(protect, deleteCandidate);
 
 module.exports = router;
